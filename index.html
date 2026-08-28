@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sección Técnica de Informática · ENET N°1 Palpala</title>
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- franja diagonal decorativa superior -->
+<div class="bolt-strip" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <img src="logo.png" alt="ENET N°1 Palpala" class="brand-logo">
+      <div class="brand-text">
+        <span class="brand-eyebrow">ENET N°1 · GRAL. SAVIO · PALPALA, JUJUY</span>
+        <h1 class="brand-title">Sección Técnica de Informática</h1>
+      </div>
+    </div>
+    <div class="header-status" id="headerStatus">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span id="headerStatusText">Acceso restringido</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ PANTALLA DE ACCESO ============ -->
+  <section id="gateView" class="gate">
+    <div class="plate gate-plate">
+      <div class="rivet tl" aria-hidden="true"></div>
+      <div class="rivet tr" aria-hidden="true"></div>
+      <div class="rivet bl" aria-hidden="true"></div>
+      <div class="rivet br" aria-hidden="true"></div>
+
+      <span class="eyebrow">Acceso institucional</span>
+      <h2>Ingresá con tu correo institucional</h2>
+      <p class="gate-desc">
+        El inventario de equipos es de consulta para toda la comunidad educativa.
+        Los alumnos pueden ver el estado de las máquinas; los docentes, además, pueden actualizarlo.
+      </p>
+
+      <form id="gateForm" novalidate>
+        <div class="role-toggle" role="radiogroup" aria-label="Tipo de usuario">
+          <input type="radio" name="rol" id="rolAlumno" value="alumno" checked>
+          <label for="rolAlumno">Alumno</label>
+          <input type="radio" name="rol" id="rolDocente" value="docente">
+          <label for="rolDocente">Docente</label>
+        </div>
+
+        <label for="emailInput">Correo institucional</label>
+        <input type="email" id="emailInput" name="email" placeholder="apellido.nombre@eet1saviopalpala.edu.ar" autocomplete="email" required>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+        <p class="gate-message" id="gateMessage" role="alert"></p>
+      </form>
+
+      <p class="gate-hint">Dominio habilitado: <code>@eet1saviopalpala.edu.ar</code></p>
+    </div>
+  </section>
+
+  <!-- ============ PANEL PRINCIPAL (POST-ACCESO) ============ -->
+  <section id="appView" class="app hidden">
+
+    <div class="app-toolbar">
+      <div class="session-info">
+        <span class="eyebrow">Sesión activa</span>
+        <span id="sessionEmail" class="session-email">—</span>
+      </div>
+      <div class="toolbar-right">
+        <span id="roleBadge" class="badge">—</span>
+        <button id="logoutBtn" class="btn btn-ghost">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <section class="search-block">
+      <h2 class="section-title">Buscar equipo por ID</h2>
+      <p class="section-sub">Ingresá el identificador impreso en la etiqueta del gabinete (ej: <span class="mono">906790</span>).</p>
+
+      <form id="searchForm" class="search-form">
+        <input type="text" id="searchInput" placeholder="Ej: 906790 " autocomplete="off">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+      </form>
+
+      <div id="searchFeedback" class="search-feedback"></div>
+    </section>
+
+    <!-- Resultado: ficha estilo "placa de identificación" -->
+    <section id="resultCard" class="result-plate hidden">
+      <div class="rivet tl" aria-hidden="true"></div>
+      <div class="rivet tr" aria-hidden="true"></div>
+      <div class="rivet bl" aria-hidden="true"></div>
+      <div class="rivet br" aria-hidden="true"></div>
+
+      <div class="result-head">
+        <div>
+          <span class="eyebrow" id="resultAula">—</span>
+          <h3 id="resultId">—</h3>
+        </div>
+        <div class="result-head-actions">
+          <span id="resultEstado" class="badge">—</span>
+          <select id="editEstado" class="edit-select hidden">
+            <option value="operativo">Operativo</option>
+            <option value="revision">En revisión</option>
+            <option value="fuera de servicio">Fuera de servicio</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="result-nfc">
+        <span class="eyebrow">Enlace directo (para etiqueta NFC)</span>
+        <div class="nfc-link-row">
+          <input type="text" id="resultLink" class="nfc-link-input" readonly aria-label="Enlace directo a esta ficha">
+          <button type="button" id="copyLinkBtn" class="btn btn-ghost btn-small">Copiar enlace</button>
+        </div>
+        <p class="nfc-copy-feedback" id="linkCopyFeedback" role="status"></p>
+      </div>
+
+      <dl class="result-grid">
+        <div><dt>Procesador</dt><dd id="resultCpu">—</dd></div>
+        <div><dt>Memoria RAM</dt><dd id="resultRam">—</dd></div>
+        <div><dt>Almacenamiento</dt><dd id="resultDisk">—</dd></div>
+        <div><dt>Sistema operativo</dt><dd id="resultSo">—</dd></div>
+        <div><dt>N° de inventario</dt><dd id="resultInv">—</dd></div>
+        <div><dt>Última revisión</dt><dd id="resultFecha">—</dd></div>
+      </dl>
+
+      <p class="result-obs">
+        <strong>Observaciones:</strong>
+        <span id="resultObs">—</span>
+        <textarea id="editObs" class="edit-textarea hidden"></textarea>
+      </p>
+
+      <div class="result-footer">
+        <button id="editBtn" class="btn btn-ghost docente-only hidden">Editar ficha</button>
+        <div id="editActions" class="edit-actions hidden">
+          <button id="saveEditBtn" class="btn btn-primary">Guardar cambios</button>
+          <button id="cancelEditBtn" class="btn btn-ghost">Cancelar</button>
+        </div>
+        <span id="readOnlyNote" class="read-only-note hidden">Modo lectura: solo el personal docente puede modificar esta ficha.</span>
+      </div>
+    </section>
+
+    <section class="inventory-block">
+      <h2 class="section-title">Listado general</h2>
+      <div class="table-wrap">
+        <table id="inventoryTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Ubicación</th>
+              <th>Estado</th>
+              <th>Procesador</th>
+              <th>RAM</th>
+              <th>SO</th>
+              <th>Enlace NFC</th>
+              <th class="docente-only hidden">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="inventoryBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <img src="logo.png" alt="" class="footer-logo" aria-hidden="true">
+  <p>Sección Técnica de Informática — E.N.E.T. N°1 "Gral. Savio" · Palpala, Jujuy</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
